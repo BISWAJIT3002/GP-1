@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Book Parking</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>🚗 Smart Parking</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/book">Book Slot</a>
+        <a href="/admin">Admin</a>
+    </div>
+
+</nav>
+
+<div class="form-container">
+
+    <h1>Book Parking Slot</h1>
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="message">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <form method="POST">
+
+        <label>Owner Name</label>
+
+        <input
+            type="text"
+            name="owner_name"
+            placeholder="Enter owner name"
+            required>
+
+        <label>Vehicle Number</label>
+
+        <input
+            type="text"
+            name="vehicle_number"
+            placeholder="OD 02 AB 1234"
+            required>
+
+        <label>Select Parking Slot</label>
+
+        <select name="slot_number" required>
+
+            <option value="">
+                -- Select Slot --
+            </option>
+
+            {% for slot in slots %}
+
+            <option value="{{ slot.slot_number }}">
+                {{ slot.slot_number }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+        <button type="submit">
+            🚗 Book Parking
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav>
+
+    <h2>🚗 Smart Parking Admin</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/book">Book Slot</a>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    <h1>Admin Dashboard</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Active Parking</h3>
+            <p>{{ active }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Revenue</h3>
+            <p>₹{{ total_revenue }}</p>
+        </div>
+
+    </div>
+
+    <h2>Booking Records</h2>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Owner</th>
+            <th>Vehicle</th>
+            <th>Slot</th>
+            <th>Entry</th>
+            <th>Exit</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        {% for booking in bookings %}
+
+        <tr>
+
+            <td>{{ booking.id }}</td>
+
+            <td>{{ booking.owner_name }}</td>
+
+            <td>{{ booking.vehicle_number }}</td>
+
+            <td>{{ booking.slot_number }}</td>
+
+            <td>{{ booking.entry_time }}</td>
+
+            <td>
+                {{ booking.exit_time or "-" }}
+            </td>
+
+            <td>
+                ₹{{ booking.amount }}
+            </td>
+
+            <td>
+                {% if booking.status == "Active" %}
+                    <span class="active">
+                        Active
+                    </span>
+                {% else %}
+                    Completed
+                {% endif %}
+            </td>
+
+            <td>
+
+                {% if booking.status == "Active" %}
+
+                <a class="checkout"
+                   href="/checkout/{{ booking.id }}">
+                    Checkout
+                </a>
+
+                {% endif %}
+
+                <a class="delete"
+                   href="/delete/{{ booking.id }}"
+                   onclick="return confirm('Delete booking?')">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+</html>

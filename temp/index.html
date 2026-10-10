@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Parking System</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<nav>
+    <h2>🚗 Smart Parking</h2>
+
+    <div>
+        <a href="/">Dashboard</a>
+        <a href="/book">Book Slot</a>
+        <a href="/admin">Admin</a>
+    </div>
+</nav>
+
+<div class="container">
+
+    <h1>Smart Parking Dashboard</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Slots</h3>
+            <p>{{ total }}</p>
+        </div>
+
+        <div class="card available-card">
+            <h3>Available</h3>
+            <p>{{ available }}</p>
+        </div>
+
+        <div class="card occupied-card">
+            <h3>Occupied</h3>
+            <p>{{ occupied }}</p>
+        </div>
+
+    </div>
+
+    <h2>Parking Slots</h2>
+
+    <div class="parking-grid">
+
+        {% for slot in slots %}
+
+        <div class="slot
+            {% if slot.status == 'Available' %}
+                available
+            {% else %}
+                occupied
+            {% endif %}">
+
+            <h2>{{ slot.slot_number }}</h2>
+
+            {% if slot.status == 'Available' %}
+
+                <p>🟢 Available</p>
+
+                <a class="button"
+                   href="/book">
+                    Book
+                </a>
+
+            {% else %}
+
+                <p>🔴 Occupied</p>
+
+                <p>
+                    🚘 {{ slot.vehicle_number }}
+                </p>
+
+                <img
+                    src="/qr/{{ slot.slot_number }}"
+                    width="100"
+                    alt="QR">
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
